@@ -60,6 +60,7 @@ class QdrantClientWrapper:
         self._client = AsyncQdrantClient(
             host=settings.qdrant_host,
             port=settings.qdrant_port,
+            check_compatibility=False,   # quiet the client/server minor-version warning
         )
         logger.info("qdrant_connected", host=settings.qdrant_host, port=settings.qdrant_port)
 

@@ -51,23 +51,55 @@ THEME = Theme({
 })
 console = Console(theme=THEME)
 
-LOGO = r"""[accent] _   _  ___ ___ ___ _____    ___              _    ___  ___   ___ [/]
-[accent]| \ | |/ __| __| _ \_   _|  / __|_ _ __ _ _ __| |_ | _ \/ _ \ / __|[/]
-[accent]|  \| | (__| _||   / | |   | (_ | '_/ _` | '_ \ ' \|   / (_) | (_ |[/]
-[accent]|_|\_|\___|___|_|_\ |_|    \___|_| \__,_| .__/_||_|_|_\\___/ \___|[/]
-[muted]                                        |_|  graph-rag over NCERT[/]"""
+_LOGO_RAW = r"""
+ _   _  ___ ___ ___ _____    ___              _    ___  ___   ___
+| \ | |/ __| __| _ \_   _|  / __|_ _ __ _ _ __| |_ | _ \/ _ \ / __|
+|  \| | (__| _||   / | |   | (_ | '_/ _` | '_ \ ' \|   / (_) | (_ |
+|_|\_|\___|___|_|_\ |_|    \___|_| \__,_| .__/_||_|_|_\\___/ \___|
+"""
+LOGO_LINES = _LOGO_RAW.strip("\n").split("\n")
+_LOGO_W = max(len(line) for line in LOGO_LINES)
+
+# Warm gradient stops (terracotta → gold → terracotta) painted across the logo.
+_STOPS = [(0xD9, 0x8A, 0x5C), (0xF2, 0xD0, 0x90), (0xD9, 0x8A, 0x5C)]
+
+_HINT = Text.from_markup(
+    "[muted]Ask anything from NCERT grades 6–12 · "
+    "grounded in the textbooks with citations · "
+    "type[/] quit [muted]to exit[/]"
+)
 
 
-def banner() -> Panel:
-    hint = Text.from_markup(
-        "[muted]Ask anything from NCERT grades 6–12 · "
-        "answers are grounded in the textbooks with citations · "
-        "type[/] quit [muted]to exit[/]"
-    )
-    return Panel(
-        Group(Text.from_markup(LOGO), Text(""), hint),
-        box=ROUNDED, border_style="accent", padding=(1, 3),
-    )
+def _grad(t: float) -> tuple[int, int, int]:
+    t = min(max(t, 0.0), 1.0)
+    seg = t * (len(_STOPS) - 1)
+    i = min(int(seg), len(_STOPS) - 2)
+    f = seg - i
+    a, b = _STOPS[i], _STOPS[i + 1]
+    return tuple(round(a[j] + (b[j] - a[j]) * f) for j in range(3))
+
+
+def render_logo(sweep: float | None) -> Text:
+    """Logo as a horizontal gradient; `sweep` adds a moving white glow column."""
+    t = Text()
+    for li, line in enumerate(LOGO_LINES):
+        if li:
+            t.append("\n")
+        for x, ch in enumerate(line):
+            if ch == " ":
+                t.append(" ")
+                continue
+            rgb = _grad(x / (_LOGO_W - 1))
+            if sweep is not None and abs(x - sweep) < 7:
+                glow = (1 - abs(x - sweep) / 7) ** 2
+                rgb = tuple(round(rgb[j] + (255 - rgb[j]) * 0.85 * glow) for j in range(3))
+            t.append(ch, style="#%02x%02x%02x" % rgb)
+    return t
+
+
+def banner_panel(logo: Text) -> Panel:
+    return Panel(Group(logo, Text(""), _HINT),
+                 box=ROUNDED, border_style="accent", padding=(1, 3))
 
 
 def answer_panel(body, footer: str | None = None) -> Panel:
@@ -126,12 +158,22 @@ async def main() -> None:
     neo4j, qdrant = Neo4jClient(), QdrantClientWrapper()
     embedder, llm = EmbeddingEngine(), LLMClient()
 
-    console.print(banner())
+    # Shimmer the logo while the backend connects + bge-m3 loads, then settle.
+    async def _connect() -> None:
+        await neo4j.connect()
+        await qdrant.connect()
+        await asyncio.to_thread(embedder.load)   # blocking model load off the event loop
+
+    loader = asyncio.create_task(_connect())
+    frame = 0
+    with Live(banner_panel(render_logo(0)), console=console, refresh_per_second=30) as live:
+        while not loader.done():
+            live.update(banner_panel(render_logo((frame % (_LOGO_W + 16)) - 8)))
+            await asyncio.sleep(0.03)
+            frame += 1
+        live.update(banner_panel(render_logo(None)))  # final static gradient
     try:
-        with console.status("[accent]connecting to Neo4j + Qdrant and loading bge-m3…", spinner="dots"):
-            await neo4j.connect()
-            await qdrant.connect()
-            embedder.load()
+        await loader
     except Exception as exc:
         console.print(f"[err]✗ startup failed:[/] {exc}")
         console.print("[muted]Is docker compose up? (Neo4j :7687, Qdrant :6333)[/]")
