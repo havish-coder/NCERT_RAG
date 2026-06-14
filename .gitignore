@@ -1,0 +1,64 @@
+# Environment / secrets
+.env
+*.env
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyd
+*.pyo
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+*.egg
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+htmlcov/
+.coverage
+.coverage.*
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Data & generated artifacts (large — never commit)
+data/
+
+# Archives / bundles
+*.zip
+*.tar
+*.tar.gz
+
+# Model weights
+*.bin
+*.safetensors
+*.gguf
+*.ggml
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
+# Personal / scratch (not part of the published project)
+notes/
+notebooks/
+context.md
+
+# Agent / IDE tooling
+.claude/
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
