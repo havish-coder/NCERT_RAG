@@ -49,8 +49,8 @@ def _clean_payload(d: dict) -> dict:
 
 class QdrantClientWrapper:
     """
-    Manages three Qdrant collections using hybrid search (dense + sparse via bge-m3).
-    Collections: ncert_chunks, ncert_entities, ncert_communities.
+    Manages the Qdrant collections using hybrid search (dense + sparse via bge-m3).
+    Collections: ncert_chunks, ncert_entities.
     """
 
     def __init__(self) -> None:
@@ -72,7 +72,6 @@ class QdrantClientWrapper:
         for name in [
             settings.qdrant_chunks_collection,
             settings.qdrant_entities_collection,
-            settings.qdrant_communities_collection,
         ]:
             existing = await self._client.collection_exists(name)
             if not existing:
@@ -121,13 +120,6 @@ class QdrantClientWrapper:
         ]
         await self._upsert_batched(settings.qdrant_entities_collection, points)
 
-    async def upsert_communities(self, communities: list[dict]) -> None:
-        points = [
-            self._make_point(c["community_id"], c, c["dense_embedding"])
-            for c in communities if _to_list(c.get("dense_embedding"))
-        ]
-        await self._upsert_batched(settings.qdrant_communities_collection, points)
-
     # ── Search helpers ────────────────────────────────────────────────────────
 
     def _build_filter(self, filters: dict | None) -> Filter | None:
@@ -161,15 +153,6 @@ class QdrantClientWrapper:
     ) -> list[dict]:
         qfilter = self._build_filter(filters)
         return await self._query(settings.qdrant_entities_collection, dense_vector, top_k, qfilter)
-
-    async def search_communities(
-        self,
-        dense_vector: list[float],
-        level: int,
-        top_k: int = settings.top_k_communities,
-    ) -> list[dict]:
-        qfilter = Filter(must=[FieldCondition(key="level", match=MatchValue(value=level))])
-        return await self._query(settings.qdrant_communities_collection, dense_vector, top_k, qfilter)
 
     async def _query(self, collection: str, dense_vector: list[float], top_k: int,
                      qfilter: Filter | None) -> list[dict]:

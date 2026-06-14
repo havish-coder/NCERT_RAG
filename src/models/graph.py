@@ -32,7 +32,6 @@ class Entity(BaseModel):
     grades: list[int] = []
     chunk_ids: list[str] = []
     dense_embedding: Optional[list[float]] = None
-    community_ids: dict[str, str] = {}     # {"0": "c-abc", "1": "c-def", "2": "c-ghi"}
 
 
 class Relationship(BaseModel):
@@ -43,15 +42,3 @@ class Relationship(BaseModel):
     description: str
     weight: float = 1.0
     chunk_ids: list[str] = []
-
-
-class Community(BaseModel):
-    community_id: str = Field(default_factory=lambda: str(uuid4()))
-    level: int
-    member_entity_ids: list[str] = []
-    parent_community_id: Optional[str] = None
-    title: Optional[str] = None
-    summary: Optional[str] = None
-    subject_coverage: list[str] = []
-    grade_coverage: list[int] = []
-    dense_embedding: Optional[list[float]] = None

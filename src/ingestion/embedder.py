@@ -5,7 +5,7 @@ For each text, bge-m3 gives us two things we use:
   - a dense vector (1024-d)        → semantic similarity
   - sparse weights (BM25-style)    → keyword / lexical matching
 
-Used offline to embed chunks/entities/communities, and online to encode a query.
+Used offline to embed chunks/entities, and online to encode a query.
 We embed each chunk on its own (simple and easy to debug). No late chunking.
 """
 from __future__ import annotations
@@ -45,10 +45,6 @@ class EmbeddingEngine:
     def embed_entities(self, descriptions: list[str]) -> list[list[float]]:
         """Dense vectors for entity descriptions."""
         return self._encode(descriptions, sparse=False)["dense_vecs"].tolist()
-
-    def embed_communities(self, summaries: list[str]) -> list[list[float]]:
-        """Dense vectors for community summaries."""
-        return self.embed_entities(summaries)
 
     # ── Query embedding (online) ──────────────────────────────────────────────
 

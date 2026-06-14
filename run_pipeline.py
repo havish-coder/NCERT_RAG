@@ -12,8 +12,6 @@ Stages
   2. parse + chunk + embed -> chunks.parquet
   3. extract entities      -> extraction_results.jsonl   (incremental, resumable)
   4. build graph (dedup)   -> entities.json, relationships.json
-  5. community detection   -> community_memberships.json, community_members.json
-  6. community summaries   -> community_summaries.json
 
 Usage (from repo root, on the Lightning Studio terminal):
     pip install -r requirements-lightning.txt
@@ -179,7 +177,7 @@ def stage_extract(df: pd.DataFrame, out: Path, model_id: str,
     return results
 
 
-# ── 4-6. Graph, communities, summaries ─────────────────────────────────────────
+# ── 4. Build knowledge graph (dedup) ───────────────────────────────────────────
 
 def stage_graph(results: list[dict], df: pd.DataFrame, out: Path):
     from src.ingestion.graph_builder import build_graph
@@ -191,30 +189,6 @@ def stage_graph(results: list[dict], df: pd.DataFrame, out: Path):
                                   "chapter": int(r["chapter"])} for _, r in l2.iterrows()}
     entities, rels = build_graph(results, chunk_meta, out)
     log(f"graph: {len(entities)} entities, {len(rels)} relationships")
-
-
-def stage_communities(out: Path):
-    from src.ingestion.community_detector import detect_communities
-    if (out / "community_members.json").exists():
-        log("communities exist - skipping detection")
-        return
-    memberships = detect_communities(
-        out / "entities.json", out / "relationships.json", out / "community_memberships.json")
-    log(f"communities: assigned {len(memberships)} entities")
-
-
-def stage_summaries(out: Path, model_id: str):
-    from src.ingestion.community_summarizer import summarize_communities
-    if (out / "community_summaries.json").exists():
-        log("summaries exist - skipping")
-        return
-    from src.ingestion.extractor import load_extractor
-    log("loading model for community summaries ...")
-    pipe = load_extractor(model_id)
-    summaries = summarize_communities(
-        out / "community_members.json", out / "entities.json",
-        out / "community_summaries.json", pipe=pipe)
-    log(f"summaries: {len(summaries)} communities")
 
 
 # ── Main ───────────────────────────────────────────────────────────────────────
@@ -245,8 +219,6 @@ def main() -> None:
     df = stage_chunks(metas, out)
     results = stage_extract(df, out, args.model, args.batch, args.max_new_tokens)
     stage_graph(results, df, out)
-    stage_communities(out)
-    stage_summaries(out, args.model)
 
     log("=" * 60)
     log("PIPELINE COMPLETE - artifacts:")

@@ -38,7 +38,6 @@ class Settings(BaseSettings):
     qdrant_port: int = 6333
     qdrant_chunks_collection: str = "ncert_chunks"
     qdrant_entities_collection: str = "ncert_entities"
-    qdrant_communities_collection: str = "ncert_communities"
 
     # ── Chunking ──────────────────────────────────────────────────────────────
     chunk_l1_max_tokens: int = 2000      # section-level (late-chunking window)
@@ -47,21 +46,14 @@ class Settings(BaseSettings):
     chunk_l3_max_tokens: int = 128       # atomic content (definitions, formulas)
     semantic_threshold: float = 0.45    # similarity drop → L2 boundary
 
-    # ── Graph / Community ─────────────────────────────────────────────────────
-    community_levels: int = 3
-    leiden_resolution: float = 1.0
+    # ── Graph ─────────────────────────────────────────────────────────────────
     max_entity_neighbors: int = 10
     entity_dedup_threshold: float = 0.92
 
     # ── Retrieval ─────────────────────────────────────────────────────────────
     top_k_chunks: int = 10
     top_k_entities: int = 5
-    top_k_communities: int = 3
     context_token_budget: int = 8192
-
-    # ── API ───────────────────────────────────────────────────────────────────
-    api_host: str = "0.0.0.0"
-    api_port: int = 8000
 
     # ── Logging ───────────────────────────────────────────────────────────────
     log_level: str = "INFO"

@@ -54,17 +54,6 @@ ENTITY_EXTRACTION_FEW_SHOT_ASSISTANT = """{
   ]
 }"""
 
-COMMUNITY_SUMMARY_SYSTEM = """You are an expert educational content analyst.
-Given a list of related entities and their relationships from NCERT textbooks, write a concise community summary.
-
-Your summary must follow this structure:
-{
-  "title": "string — short descriptive title (5-8 words)",
-  "summary": "string — 3-5 sentences covering: (1) the central theme, (2) key concepts and how they relate, (3) educational significance and which grades/subjects this appears in"
-}
-
-Return valid JSON only. No markdown, no extra text."""
-
 QUERY_ANSWER_SYSTEM = """You are an expert NCERT tutor. You answer questions about Indian school curriculum (grades 6-12) based on retrieved context.
 
 Guidelines:
@@ -73,32 +62,3 @@ Guidelines:
 - Structure your answer with clarity appropriate for a student.
 - Cite specific chapter or subject when relevant.
 - For mathematical or scientific content, show step-by-step reasoning."""
-
-GLOBAL_MAP_SYSTEM = """You are analyzing educational content summaries to find information relevant to a query.
-Given a community summary and a query, extract any relevant points and rate the relevance.
-
-Return JSON:
-{
-  "relevant_points": ["point 1", "point 2", ...],
-  "relevance_score": 0-10
-}
-
-Return 0 relevant_points and score 0 if the summary is not relevant.
-Return valid JSON only."""
-
-GLOBAL_REDUCE_SYSTEM = """You are an expert NCERT tutor synthesizing information from multiple educational content summaries.
-Combine the provided relevant points into a coherent, well-structured answer to the student's question.
-Be concise, accurate, and educational."""
-
-QUERY_ROUTING_SYSTEM = """You are classifying student questions about NCERT textbooks into search modes.
-
-LOCAL: Questions about specific concepts, formulas, people, events, definitions, examples.
-  Examples: "What is Newton's third law?", "Who discovered penicillin?", "Define osmosis."
-
-GLOBAL: Questions about themes, comparisons, curriculum overview, relationships across topics.
-  Examples: "What are the major themes in class 10 science?", "How do economics concepts in grade 11 connect?"
-
-NAIVE: Very simple factual lookups with a single direct answer.
-  Examples: "What year did World War 2 end?", "How many planets are in the solar system?"
-
-Return exactly one word: LOCAL, GLOBAL, or NAIVE."""

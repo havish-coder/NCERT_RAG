@@ -64,7 +64,6 @@ class Neo4jClient:
         # default `neo4j` database (set NEO4J_DATABASE=neo4j), so no DB creation.
         statements = [
             "CREATE CONSTRAINT entity_id IF NOT EXISTS FOR (e:Entity) REQUIRE e.entity_id IS UNIQUE",
-            "CREATE CONSTRAINT community_id IF NOT EXISTS FOR (c:Community) REQUIRE c.community_id IS UNIQUE",
             "CREATE CONSTRAINT chunk_id IF NOT EXISTS FOR (ch:Chunk) REQUIRE ch.chunk_id IS UNIQUE",
             "CREATE INDEX entity_name IF NOT EXISTS FOR (e:Entity) ON (e.name)",
             "CREATE INDEX entity_type IF NOT EXISTS FOR (e:Entity) ON (e.entity_type)",
@@ -136,28 +135,6 @@ class Neo4jClient:
             return {"nodes": [], "edges": []}
         return {"nodes": rows[0]["nodes"], "edges": rows[0]["edges"]}
 
-    async def get_community_entities(self, community_id: str) -> list[dict]:
-        return await self.execute_query(
-            """
-            MATCH (e:Entity)-[:BELONGS_TO_COMMUNITY]->(c:Community {community_id: $cid})
-            RETURN e.entity_id AS entity_id, e.name AS name,
-                   e.description AS description, e.entity_type AS entity_type
-            """,
-            {"cid": community_id},
-        )
-
-    async def get_communities_by_level(self, level: int, limit: int = 50) -> list[dict]:
-        return await self.execute_query(
-            """
-            MATCH (c:Community {level: $level})
-            WHERE c.summary IS NOT NULL
-            RETURN c.community_id AS community_id, c.title AS title,
-                   c.summary AS summary, c.level AS level
-            LIMIT $limit
-            """,
-            {"level": level, "limit": limit},
-        )
-
     # ── Batch upserts ─────────────────────────────────────────────────────────
 
     async def upsert_entities_batch(self, entities: list[dict]) -> None:
@@ -186,25 +163,6 @@ class Neo4jClient:
             rel.weight        = coalesce(rel.weight, 0) + r.weight
         """
         await self.execute_write_batch(cypher, rels)
-
-    async def upsert_communities_batch(self, communities: list[dict]) -> None:
-        cypher = """
-        UNWIND $batch AS c
-        MERGE (n:Community {community_id: c.community_id})
-        SET n += {
-          level: c.level,
-          title: c.title,
-          summary: c.summary,
-          subject_coverage: c.subject_coverage,
-          grade_coverage: c.grade_coverage,
-          parent_community_id: c.parent_community_id
-        }
-        WITH n, c
-        UNWIND c.member_entity_ids AS eid
-        MATCH (e:Entity {entity_id: eid})
-        MERGE (e)-[:BELONGS_TO_COMMUNITY]->(n)
-        """
-        await self.execute_write_batch(cypher, communities, batch_size=100)
 
     async def upsert_chunks_batch(self, chunks: list[dict]) -> None:
         cypher = """

@@ -1,6 +1,7 @@
 """
-Shared helpers for handling HuggingFace text-generation output.
-Used by extractor.py and community_summarizer.py (was duplicated in both).
+Shared helpers for handling HuggingFace text-generation output:
+normalising the generated text and robustly parsing the JSON the model returns
+(including salvaging output truncated at the token limit).
 """
 from __future__ import annotations
 

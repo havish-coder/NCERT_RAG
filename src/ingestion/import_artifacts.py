@@ -9,8 +9,6 @@ Steps:
 1. Read chunks.parquet → upsert to Qdrant (ncert_chunks collection)
 2. Read entities.json + entity embeddings → upsert to Neo4j + Qdrant (ncert_entities)
 3. Read relationships.json → upsert to Neo4j
-4. Run community_detector locally (CPU) → build community_memberships.json
-5. Read community_summaries.json + embed summaries → upsert to Neo4j + Qdrant (ncert_communities)
 """
 from __future__ import annotations
 
@@ -21,8 +19,6 @@ from pathlib import Path
 
 import pandas as pd
 
-from src.config import settings
-from src.ingestion.community_detector import detect_communities
 from src.ingestion.embedder import EmbeddingEngine
 from src.storage.neo4j_client import Neo4jClient
 from src.storage.qdrant_client import QdrantClientWrapper
@@ -89,33 +85,6 @@ async def run_import() -> None:
         rels = json.loads(rels_path.read_text())
         await neo4j.upsert_relationships_batch(rels)
         logger.info("relationships_imported count=%d", len(rels))
-
-    # ── 4. Community detection (CPU, local) ────────────────────────────────────
-    memberships_path = ARTIFACTS / "community_memberships.json"
-    if not memberships_path.exists() and entities_path.exists() and rels_path.exists():
-        logger.info("running_community_detection")
-        detect_communities(entities_path, rels_path, memberships_path)
-
-    # ── 5. Community summaries → Neo4j + Qdrant ───────────────────────────────
-    summaries_path = ARTIFACTS / "community_summaries.json"
-    if summaries_path.exists() and memberships_path.exists():
-        logger.info("importing_communities")
-        summaries = json.loads(summaries_path.read_text())
-        memberships = json.loads(memberships_path.read_text())
-
-        # Attach member lists to summaries
-        comm_members: dict[str, list[str]] = {}
-        for eid, comms in memberships.items():
-            for _, cid in comms.items():
-                comm_members.setdefault(cid, []).append(eid)
-
-        embed_missing(summaries, lambda s: s.get("summary") or s.get("title", ""))
-        for s in summaries:
-            s["member_entity_ids"] = comm_members.get(s["community_id"], [])
-
-        await neo4j.upsert_communities_batch(summaries)
-        await qdrant.upsert_communities(summaries)
-        logger.info("communities_imported count=%d", len(summaries))
 
     await neo4j.close()
     await qdrant.close()
