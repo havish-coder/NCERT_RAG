@@ -96,8 +96,11 @@ class LocalSearch:
         # 4. Retrieve source chunks from Qdrant by chunk ID
         chunks = await self._fetch_chunks(list(all_chunk_ids), dense, sparse_idx, sparse_val, filters)
 
-        # 5. Attach entity relevance scores to chunks (for dedup/ranking)
+        # 5. Attach entity relevance scores to chunks, then rank the union and keep
+        # the strongest candidates so the token budget is spent on the best chunks.
         _score_chunks(chunks, entity_scores, subgraph_nodes)
+        chunks.sort(key=lambda c: c.get("score", 0.0), reverse=True)
+        chunks = chunks[: settings.top_k_chunks * 2]
 
         # 6. Assemble context
         context, citations = self.ctx_builder.assemble(chunks)
@@ -120,34 +123,42 @@ class LocalSearch:
         sparse_val: list[float],
         filters: dict | None,
     ) -> list[dict]:
-        if not chunk_ids:
-            return await self.qdrant.search_chunks(
-                dense, sparse_idx, sparse_val,
-                top_k=settings.top_k_chunks, filters=filters
-            )
-        # Hybrid: search among retrieved chunk IDs
-        results = await self.qdrant.search_chunks(
-            dense, sparse_idx, sparse_val,
-            top_k=settings.top_k_chunks * 2, filters=filters
+        # Query-relevant chunks across the whole corpus (plain vector retrieval).
+        global_hits = await self.qdrant.search_chunks(
+            dense, sparse_idx, sparse_val, top_k=settings.top_k_chunks, filters=filters
         )
-        id_set = set(chunk_ids)
-        matched = [r for r in results if r.get("chunk_id") in id_set]
-        return matched or results[:settings.top_k_chunks]
+        if not chunk_ids:
+            return global_hits
+        # UNION in the query-relevant chunks from inside the graph neighborhood.
+        # These can include passages outside the global top-k — the multi-hop case a
+        # corpus-wide search misses. (The old code used chunk_ids only to FILTER the
+        # global hits, so the graph could never introduce a chunk vector search had
+        # not already found; recall was capped at the vector baseline by construction.)
+        graph_hits = await self.qdrant.search_chunks_in_ids(
+            chunk_ids, dense, top_k=settings.top_k_chunks, filters=filters
+        )
+        by_id: dict[str, dict] = {}
+        for c in global_hits + graph_hits:
+            cid = c.get("chunk_id")
+            if cid not in by_id or c.get("score", 0.0) > by_id[cid].get("score", 0.0):
+                by_id[cid] = c
+        return list(by_id.values())
 
 
 def _score_chunks(chunks: list[dict], entity_scores: dict, subgraph_nodes: dict) -> None:
-    """Score chunks by the highest entity score among entities that reference them."""
-    # Build a map: chunk_id -> best entity score
-    chunk_best: dict[str, float] = {}
+    """Fuse two relevance signals: a chunk's own query similarity (the base, kept so
+    the best lexical/semantic match stays on top) plus a bonus for being connected to
+    a high-relevance seed entity in the graph. Overwriting the score with the entity
+    signal alone reorders the top result by the noisier signal and hurts Recall@1."""
+    GRAPH_BONUS = 0.25
+    chunk_best: dict[str, float] = {}  # chunk_id -> best seed-entity score referencing it
     for eid, escore in entity_scores.items():
-        node = subgraph_nodes.get(eid, {})
-        for cid in node.get("chunk_ids", []):
-            if escore > chunk_best.get(cid, 0.0):
-                chunk_best[cid] = escore
+        for cid in subgraph_nodes.get(eid, {}).get("chunk_ids", []):
+            chunk_best[cid] = max(escore, chunk_best.get(cid, 0.0))
 
     for c in chunks:
-        cid = c.get("chunk_id", "")
-        c["score"] = chunk_best.get(cid, c.get("score", 0.3))
+        base = c.get("score", 0.0)  # query similarity (present on every retrieved chunk)
+        c["score"] = base + GRAPH_BONUS * chunk_best.get(c.get("chunk_id", ""), 0.0)
 
 
 def _empty(mode: str) -> dict:

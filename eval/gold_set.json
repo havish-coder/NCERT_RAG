@@ -1,0 +1,255 @@
+[
+  {
+    "question": "What is photosynthesis and where in the plant does it take place?",
+    "keywords": ["photosynthesis"],
+    "gold_answer": "Photosynthesis is the process by which green plants make food (glucose) from carbon dioxide and water using sunlight and chlorophyll, releasing oxygen. It occurs mainly in the chloroplasts of leaf cells."
+  },
+  {
+    "question": "What is refraction of light and what causes it?",
+    "keywords": ["refraction"],
+    "gold_answer": "Refraction is the bending of light as it passes from one transparent medium to another, caused by the change in the speed of light between media of different optical densities."
+  },
+  {
+    "question": "Describe how digestion of food occurs in the human alimentary canal.",
+    "keywords": ["digestion"],
+    "gold_answer": "Digestion breaks complex food into absorbable molecules along the alimentary canal—starting in the mouth (saliva), then the stomach (acid and enzymes), and mainly the small intestine—aided by enzymes from the pancreas and liver."
+  },
+  {
+    "question": "What is the difference between an acid and a base?",
+    "keywords": ["acid"],
+    "gold_answer": "Acids release H+ ions in solution, taste sour and turn blue litmus red; bases release OH- ions, taste bitter, feel soapy and turn red litmus blue. They neutralise each other to form salt and water."
+  },
+  {
+    "question": "How is sound produced and how does it travel through a medium?",
+    "keywords": ["sound"],
+    "gold_answer": "Sound is produced by vibrating objects and travels as a longitudinal wave through a material medium (solid, liquid or gas) by alternate compressions and rarefactions; it cannot travel through vacuum."
+  },
+  {
+    "question": "State the universal law of gravitation.",
+    "keywords": ["gravitation"],
+    "gold_answer": "Every body attracts every other body with a force directly proportional to the product of their masses and inversely proportional to the square of the distance between them: F = G m1 m2 / r^2."
+  },
+  {
+    "question": "Describe the structure of an atom in terms of its sub-atomic particles.",
+    "keywords": ["electron"],
+    "gold_answer": "An atom has a tiny positively charged nucleus containing protons and neutrons, around which negatively charged electrons revolve in shells. The atom is electrically neutral as protons equal electrons."
+  },
+  {
+    "question": "What are the main components of a cell?",
+    "keywords": ["cytoplasm"],
+    "gold_answer": "A cell consists of a plasma membrane enclosing the cytoplasm, which holds organelles, and a nucleus that controls cell activities; plant cells also have a cell wall, chloroplasts and a large vacuole."
+  },
+  {
+    "question": "What is a tissue and how do plant and animal tissues differ?",
+    "keywords": ["tissue"],
+    "gold_answer": "A tissue is a group of similar cells performing a common function. Plant tissues are largely supportive with many dead cells (e.g. xylem), while animal tissues (epithelial, connective, muscular, nervous) are mostly living and specialised for movement and response."
+  },
+  {
+    "question": "Explain reflection of light and image formation by a plane mirror.",
+    "keywords": ["mirror"],
+    "gold_answer": "In reflection the angle of incidence equals the angle of reflection. A plane mirror forms a virtual, erect image of the same size as the object, located as far behind the mirror as the object is in front, and laterally inverted."
+  },
+  {
+    "question": "Why is the nitrogen cycle important in nature?",
+    "keywords": ["nitrogen"],
+    "gold_answer": "The nitrogen cycle circulates nitrogen between the atmosphere, soil and living organisms via fixation, nitrification, assimilation and denitrification, making nitrogen available for proteins and nucleic acids despite atmospheric N2 being inert."
+  },
+  {
+    "question": "State Newton's second law of motion and express it mathematically.",
+    "keywords": ["force", "acceleration"],
+    "gold_answer": "Newton's second law states that the rate of change of momentum of a body is directly proportional to the applied force and acts in its direction. For constant mass, F = ma."
+  },
+  {
+    "question": "State and explain the work-energy theorem.",
+    "keywords": ["kinetic energy"],
+    "gold_answer": "The work-energy theorem states that the net work done on a body equals the change in its kinetic energy: W = (1/2)mv^2 - (1/2)mu^2."
+  },
+  {
+    "question": "State Coulomb's law for the force between two point charges.",
+    "keywords": ["coulomb"],
+    "gold_answer": "Coulomb's law states that the electrostatic force between two point charges is directly proportional to the product of the charges and inversely proportional to the square of the distance between them: F = k q1 q2 / r^2."
+  },
+  {
+    "question": "Explain Faraday's law of electromagnetic induction.",
+    "keywords": ["faraday"],
+    "gold_answer": "Faraday's law states that a changing magnetic flux through a circuit induces an EMF equal to the negative rate of change of flux: EMF = -dΦ/dt; the negative sign (Lenz's law) reflects opposition to the change."
+  },
+  {
+    "question": "How does a convex lens form an image, and what is its focal length?",
+    "keywords": ["lens"],
+    "gold_answer": "A convex (converging) lens refracts parallel rays to meet at the principal focus; the focal length is the distance from the optical centre to that focus. Image nature depends on object distance, given by 1/v - 1/u = 1/f."
+  },
+  {
+    "question": "What is a capacitor and what does its capacitance depend on?",
+    "keywords": ["capacitor"],
+    "gold_answer": "A capacitor stores electric charge and energy in the field between two conductors. Its capacitance (C = Q/V) depends on plate area, separation and the dielectric medium between the plates."
+  },
+  {
+    "question": "Describe the motion of a projectile and the shape of its path.",
+    "keywords": ["projectile"],
+    "gold_answer": "A projectile undergoes independent uniform horizontal motion and uniformly accelerated vertical motion under gravity; the combination traces a parabolic path."
+  },
+  {
+    "question": "What is alternating current and how does it differ from direct current?",
+    "keywords": ["alternating current"],
+    "gold_answer": "Alternating current periodically reverses direction and varies sinusoidally with time, unlike direct current which flows in one constant direction. AC is described by its peak and rms values and frequency."
+  },
+  {
+    "question": "Explain the mole concept and how molar mass is used in calculations.",
+    "keywords": ["molar mass"],
+    "gold_answer": "A mole is the amount of substance containing Avogadro's number (6.022x10^23) of particles. Molar mass (g/mol) equals the mass of one mole, linking mass to number of moles via n = mass / molar mass."
+  },
+  {
+    "question": "How are elements arranged in the modern periodic table?",
+    "keywords": ["periodic"],
+    "gold_answer": "In the modern periodic table elements are arranged by increasing atomic number in periods (rows) and groups (columns); the periodic law states that properties are a periodic function of atomic number."
+  },
+  {
+    "question": "What is a covalent bond and how does it form?",
+    "keywords": ["covalent"],
+    "gold_answer": "A covalent bond forms when two atoms share one or more pairs of electrons to attain stable noble-gas configurations, typically between non-metals; sharing one, two or three pairs gives single, double or triple bonds."
+  },
+  {
+    "question": "What is standard electrode potential in electrochemistry?",
+    "keywords": ["electrode"],
+    "gold_answer": "Standard electrode potential is the potential of an electrode measured against the standard hydrogen electrode under standard conditions (1 M, 1 bar, 298 K); it indicates the tendency of a species to be reduced."
+  },
+  {
+    "question": "Define enthalpy and explain enthalpy change in a reaction.",
+    "keywords": ["enthalpy"],
+    "gold_answer": "Enthalpy (H) is the heat content of a system at constant pressure. The enthalpy change ΔH is the heat absorbed or released in a reaction; negative for exothermic and positive for endothermic reactions."
+  },
+  {
+    "question": "What is chemical equilibrium and what does Le Chatelier's principle state?",
+    "keywords": ["equilibrium"],
+    "gold_answer": "Chemical equilibrium is the state where forward and reverse reaction rates are equal and concentrations stay constant. Le Chatelier's principle says a system at equilibrium shifts to counteract any change in concentration, pressure or temperature."
+  },
+  {
+    "question": "What are hydrocarbons and how are they classified?",
+    "keywords": ["hydrocarbon"],
+    "gold_answer": "Hydrocarbons are compounds of only carbon and hydrogen. They are classified as saturated (alkanes), unsaturated (alkenes and alkynes) and aromatic (e.g. benzene) hydrocarbons."
+  },
+  {
+    "question": "What is a redox reaction in terms of oxidation and reduction?",
+    "keywords": ["oxidation"],
+    "gold_answer": "A redox reaction involves simultaneous oxidation (loss of electrons / increase in oxidation number) and reduction (gain of electrons / decrease in oxidation number); the oxidising agent is reduced and the reducing agent is oxidised."
+  },
+  {
+    "question": "What are enzymes and how do they act as biological catalysts?",
+    "keywords": ["enzyme"],
+    "gold_answer": "Enzymes are protein catalysts that speed up biochemical reactions by lowering activation energy. They act on specific substrates at an active site and are influenced by temperature and pH."
+  },
+  {
+    "question": "What is the role of chlorophyll in photosynthesis in higher plants?",
+    "keywords": ["chlorophyll"],
+    "gold_answer": "Chlorophyll is the green pigment in chloroplasts that absorbs light energy (mainly blue and red) and converts it into chemical energy, driving the light reactions of photosynthesis."
+  },
+  {
+    "question": "How does DNA carry and replicate genetic information?",
+    "keywords": ["dna"],
+    "gold_answer": "DNA is a double helix of nucleotides whose base sequence (A-T, G-C pairing) encodes genetic information. It replicates semi-conservatively, each strand templating a new complementary strand."
+  },
+  {
+    "question": "Describe the mechanism of breathing and exchange of gases in humans.",
+    "keywords": ["respiration"],
+    "gold_answer": "Air is drawn into the lungs by the diaphragm and rib muscles; in the alveoli oxygen diffuses into the blood and carbon dioxide diffuses out, after which cellular respiration uses oxygen to release energy from glucose."
+  },
+  {
+    "question": "What is a neuron and how does it transmit a nerve impulse?",
+    "keywords": ["neuron"],
+    "gold_answer": "A neuron is the structural unit of the nervous system with dendrites, a cell body and an axon. It transmits impulses as electrochemical signals along the axon, passing to the next neuron across a synapse via neurotransmitters."
+  },
+  {
+    "question": "What is an ecosystem and how does energy flow through it?",
+    "keywords": ["ecosystem"],
+    "gold_answer": "An ecosystem is a community of organisms interacting with their physical environment. Energy flows unidirectionally from producers to consumers to decomposers through food chains, decreasing at each trophic level."
+  },
+  {
+    "question": "How does the human immune system defend against disease?",
+    "keywords": ["immunity"],
+    "gold_answer": "Immunity defends the body through innate barriers (skin, phagocytes, inflammation) and acquired responses in which lymphocytes produce antibodies and memory cells against specific pathogens (antigens)."
+  },
+  {
+    "question": "Prove the trigonometric identity sin squared theta plus cos squared theta equals one.",
+    "keywords": ["trigonometr"],
+    "gold_answer": "In a right triangle, by Pythagoras' theorem the squares of the two legs sum to the square of the hypotenuse. Dividing by the hypotenuse squared and using sin and cos definitions gives sin^2 θ + cos^2 θ = 1."
+  },
+  {
+    "question": "How do you solve a quadratic equation using the quadratic formula?",
+    "keywords": ["quadratic"],
+    "gold_answer": "For ax^2 + bx + c = 0, the roots are x = [-b ± sqrt(b^2 - 4ac)] / 2a. The discriminant b^2 - 4ac determines whether the roots are real and distinct, equal, or complex."
+  },
+  {
+    "question": "What is probability and how is the probability of an event calculated?",
+    "keywords": ["probability"],
+    "gold_answer": "Probability measures how likely an event is, between 0 and 1. For equally likely outcomes it equals the number of favourable outcomes divided by the total number of outcomes."
+  },
+  {
+    "question": "What is a matrix and how are two matrices multiplied?",
+    "keywords": ["matri"],
+    "gold_answer": "A matrix is a rectangular array of numbers arranged in rows and columns. Two matrices can be multiplied when the number of columns of the first equals the number of rows of the second, combining row-by-column products."
+  },
+  {
+    "question": "What is the derivative of a function and what does it represent?",
+    "keywords": ["derivative"],
+    "gold_answer": "The derivative is the instantaneous rate of change of a function, defined as the limit of the difference quotient; geometrically it is the slope of the tangent to the curve at a point."
+  },
+  {
+    "question": "What does the definite integral of a function represent?",
+    "keywords": ["integral"],
+    "gold_answer": "The definite integral of a function over an interval gives the net signed area between the curve and the x-axis, evaluated using the fundamental theorem of calculus as F(b) - F(a)."
+  },
+  {
+    "question": "What is a set and what is meant by a subset?",
+    "keywords": ["subset"],
+    "gold_answer": "A set is a well-defined collection of distinct objects. A set A is a subset of B if every element of A is also in B, written A ⊆ B."
+  },
+  {
+    "question": "What is a determinant and what is it used for?",
+    "keywords": ["determinant"],
+    "gold_answer": "A determinant is a scalar value associated with a square matrix; it indicates whether the matrix is invertible (non-zero determinant) and is used to solve systems of linear equations and find areas/volumes."
+  },
+  {
+    "question": "What is federalism and how is power divided in a federal system?",
+    "keywords": ["federalism"],
+    "gold_answer": "Federalism is a system in which power is divided between a central government and regional (state) governments, each with its own jurisdiction defined by the constitution."
+  },
+  {
+    "question": "What are fundamental rights and why are they important?",
+    "keywords": ["fundamental rights"],
+    "gold_answer": "Fundamental rights are basic freedoms guaranteed by the Constitution (such as equality, freedom of speech and protection from exploitation) that are enforceable by courts and protect citizens against arbitrary state action."
+  },
+  {
+    "question": "What is the role of the judiciary in a democracy?",
+    "keywords": ["judiciary"],
+    "gold_answer": "The judiciary interprets laws, settles disputes, protects fundamental rights and upholds the Constitution through judicial review, functioning independently of the legislature and executive."
+  },
+  {
+    "question": "What are the key features of a democracy?",
+    "keywords": ["democracy"],
+    "gold_answer": "A democracy features rule by elected representatives chosen in free and fair elections, equality before law, protection of rights, and accountability of government to the people."
+  },
+  {
+    "question": "How do the forces of demand and supply determine market price?",
+    "keywords": ["demand"],
+    "subject": "economics",
+    "gold_answer": "The market price settles at the equilibrium where the quantity demanded equals the quantity supplied; a surplus pushes price down and a shortage pushes it up until equilibrium is reached."
+  },
+  {
+    "question": "What is poverty and how is it measured?",
+    "keywords": ["poverty"],
+    "gold_answer": "Poverty is the inability to secure a minimum standard of living. It is commonly measured using a poverty line based on minimum consumption (calorie intake and essential expenditure); those below it are counted as poor."
+  },
+  {
+    "question": "What were the main causes of the French Revolution?",
+    "keywords": ["revolution"],
+    "subject": "history",
+    "gold_answer": "The French Revolution was caused by an unjust estates system, financial crisis and heavy taxation on commoners, Enlightenment ideas of liberty and equality, and resentment against an absolute monarchy."
+  },
+  {
+    "question": "What is nationalism and how did it grow in the nineteenth century?",
+    "keywords": ["nationalism"],
+    "subject": "history",
+    "gold_answer": "Nationalism is a sense of shared identity and loyalty to a nation. In nineteenth-century Europe it grew through the French Revolution's ideals, a common language and culture, and movements that unified or liberated peoples into nation-states."
+  }
+]

@@ -146,6 +146,25 @@ class QdrantClientWrapper:
         qfilter = self._build_filter(filters)
         return await self._query(settings.qdrant_chunks_collection, dense_vector, top_k, qfilter)
 
+    async def search_chunks_in_ids(
+        self,
+        chunk_ids: list[str],
+        dense_vector: list[float],
+        top_k: int = settings.top_k_chunks,
+        filters: dict | None = None,
+    ) -> list[dict]:
+        """Rank chunks by query similarity but restricted to a given set of chunk
+        ids. Used to pull the most query-relevant chunks from a graph neighborhood
+        — including ones outside the global top-k — so graph expansion can surface
+        passages a plain corpus-wide search would miss."""
+        if not chunk_ids:
+            return []
+        base = self._build_filter(filters)
+        conditions = list(base.must) if base and base.must else []
+        conditions.append(FieldCondition(key="chunk_id", match=MatchAny(any=list(chunk_ids))))
+        return await self._query(
+            settings.qdrant_chunks_collection, dense_vector, top_k, Filter(must=conditions))
+
     async def search_entities(
         self,
         dense_vector: list[float],

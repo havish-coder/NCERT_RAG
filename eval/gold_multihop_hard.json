@@ -1,0 +1,34 @@
+[
+  {
+    "question": "Trace the flow of energy from sunlight captured in photosynthesis to the contraction of a muscle in an animal.",
+    "hops": [["photosynthesis"], ["glucose"], ["respiration"], ["muscle"]]
+  },
+  {
+    "question": "Trace how nitrogen from the air is converted into nitrates and then built into amino acids and proteins in living organisms.",
+    "hops": [["nitrogen"], ["nitrate"], ["amino acid"], ["protein"]]
+  },
+  {
+    "question": "How does a metal's position in the reactivity series determine whether it is extracted by electrolysis?",
+    "hops": [["reactivity"], ["electrolysis"]]
+  },
+  {
+    "question": "How does the combustion of fossil fuels raise carbon dioxide and drive the greenhouse effect and global warming?",
+    "hops": [["combustion"], ["carbon dioxide"], ["greenhouse"], ["global warming"]]
+  },
+  {
+    "question": "How does insulin, released by a gland, regulate glucose levels in the blood?",
+    "hops": [["insulin"], ["gland"], ["glucose"], ["blood"]]
+  },
+  {
+    "question": "How does the base sequence in DNA determine the proteins made and the traits passed to offspring?",
+    "hops": [["dna"], ["protein"], ["gene"]]
+  },
+  {
+    "question": "How does an electrical impulse in a neuron cross a synapse to make a muscle contract?",
+    "hops": [["neuron"], ["synapse"], ["muscle"]]
+  },
+  {
+    "question": "How do respiration in animals and photosynthesis in plants together cycle carbon dioxide?",
+    "hops": [["photosynthesis"], ["respiration"], ["carbon dioxide"]]
+  }
+]

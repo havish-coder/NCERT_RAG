@@ -1,0 +1,50 @@
+[
+  {
+    "question": "How does the structure of the alveoli enable the exchange of oxygen and carbon dioxide?",
+    "hops": [["alveoli"], ["oxygen"], ["carbon dioxide"]]
+  },
+  {
+    "question": "Relate transpiration in the leaves to the transport of water through the xylem.",
+    "hops": [["transpiration"], ["xylem"]]
+  },
+  {
+    "question": "Connect the role of chlorophyll to the production of glucose and oxygen in photosynthesis.",
+    "hops": [["chlorophyll"], ["glucose"], ["oxygen"]]
+  },
+  {
+    "question": "How does haemoglobin in the blood enable the transport of oxygen around the body?",
+    "hops": [["haemoglobin"], ["oxygen"], ["blood"]]
+  },
+  {
+    "question": "Relate the structure of DNA and genes to the synthesis of proteins.",
+    "hops": [["dna"], ["gene"], ["protein"]]
+  },
+  {
+    "question": "How do enzymes act as biological catalysts by lowering the activation energy of reactions?",
+    "hops": [["enzyme"], ["catalyst"], ["activation energy"]]
+  },
+  {
+    "question": "Connect Ohm's law to the relationship between voltage, current and resistance.",
+    "hops": [["ohm"], ["voltage"], ["resistance"]]
+  },
+  {
+    "question": "How does the reactivity series explain the displacement reactions of metals?",
+    "hops": [["reactivity"], ["displacement reaction"]]
+  },
+  {
+    "question": "Relate photosynthesis and respiration through the exchange of oxygen and carbon dioxide.",
+    "hops": [["photosynthesis"], ["respiration"], ["carbon dioxide"]]
+  },
+  {
+    "question": "How does natural selection acting on variation lead to evolution?",
+    "hops": [["natural selection"], ["variation"], ["evolution"]]
+  },
+  {
+    "question": "How do the kidney and the nephron carry out excretion in humans?",
+    "hops": [["kidney"], ["nephron"], ["excretion"]]
+  },
+  {
+    "question": "How does the mitochondria produce ATP through cellular respiration?",
+    "hops": [["mitochondria"], ["atp"], ["respiration"]]
+  }
+]
