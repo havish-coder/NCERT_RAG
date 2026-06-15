@@ -195,6 +195,46 @@ python cli.py
 
 ---
 
+## Evaluation
+
+Retrieval and generation are evaluated separately (a RAG can fail at either), with an
+**ablation** that isolates what the knowledge-graph layer adds over plain vector search.
+Run it with `python eval.py` (retrieval metrics, free) or `python eval.py --judge`
+(adds LLM-graded faithfulness/relevance/correctness).
+
+- **Retrieval** — Recall@k and MRR against a hand-written gold set, matching on chunk
+  content (`eval/gold_set.json`, 50 questions across all 8 subjects).
+- **Ablation** — the same metrics **with vs. without** the Neo4j graph-expansion step.
+
+**Concept-lookup questions (n=50):** dense retrieval alone is already near-perfect, so the
+graph adds little headroom — but after fixing retrieval to *union* graph-neighborhood
+chunks (rather than filter by them) it edges ahead instead of trailing:
+
+| Metric | Vector only | GraphRAG |
+|---|---:|---:|
+| Recall@1 | 92.0% | **94.0%** |
+| MRR | 0.960 | **0.963** |
+
+**Hard multi-hop questions (n=8)** — where the linked concepts sit in *different chapters
+and aren't lexically similar to each other* (`eval/gold_multihop_hard.json`) — is where the
+graph earns its keep:
+
+| Metric | Vector only | GraphRAG | Δ |
+|---|---:|---:|---:|
+| Hop coverage | 93.8% | **100%** | +6.2 pp |
+| Full coverage | 87.5% | **100%** | **+12.5 pp** |
+
+For example, on *"trace the energy from sunlight in photosynthesis to a muscle
+contraction,"* plain vector search retrieves the `photosynthesis` and `muscle` passages
+(both named in the query) but misses the intermediate `glucose` and `respiration` hops —
+they aren't lexically similar to the query. Graph expansion follows the relationship edges
+to those connected passages and achieves full coverage. This is the canonical GraphRAG
+win: **retrieving a relevant passage the query isn't lexically similar to, because a graph
+edge bridges to it.** The benefit appears only on questions that genuinely require bridging
+distant concepts — single-concept lookups are already saturated for vector search.
+
+---
+
 ## License
 
 [MIT](LICENSE)
